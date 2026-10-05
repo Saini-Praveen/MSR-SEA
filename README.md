@@ -123,7 +123,6 @@ python metrics.py
 ```text
 MSR-SEA/
 ├── README.md
-├── LICENSE
 ├── requirements.txt
 ├── .gitignore
 ├── model.py
@@ -151,6 +150,4 @@ If you use MSR-SEA in your research, please cite the associated paper:
   
 }
 ```
-## License
 
-This project is released under the MIT License. See `LICENSE` for details.
