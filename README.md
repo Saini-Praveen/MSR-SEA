@@ -39,7 +39,7 @@ The current training configuration uses:
 - 256 × 256 image resolution
 
   Other datasets we used in this project are UIEB and SYN-TIII.
-  Datasets can be download from
+  Datasets can be downloaded from
   AUIED3K: https://sites.google.com/iiita.ac.in/navjotsingh/research/datasets/auied3k
   UIEB: https://li-chongyi.github.io/proj_benchmark.html
   SYN-TIII: https://li-chongyi.github.io/proj_underwater_image_synthesis.html
@@ -138,16 +138,13 @@ MSR-SEA/
 
 ## Pretrained Weights
 
-Pretrained weights can be download from 
+Pretrained weights can be download from https://drive.google.com/file/d/1epW9UqUe0z_2hA2ue70C-ece8FHn7w1p/view?usp=sharing
 
 ## Citation
 
 If you use MSR-SEA in your research, please cite the associated paper:
 
 ```bibtex
-@article{msrsea,
-  title   = {Multi-Scale Residual Squeeze-and-Excitation Architecture for Underwater Image Enhancement},
-  
-}
+
 ```
 
