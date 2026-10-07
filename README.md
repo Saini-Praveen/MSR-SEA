@@ -2,7 +2,7 @@
 ## Multi-Scale Residual Squeeze-and-Excitation Architecture for Underwater Image Enhancement
 
 MSR-SEA is a deep learning architecture for underwater image enhancement. The network combines multi-scale convolutional feature extraction, residual learning, and squeeze-and-excitation (SE) channel attention to process degraded underwater images and reconstruct enhanced RGB images.
-
+<!--
 ## Architecture
 
 The proposed MSR-SEA model consists of three main stages:
@@ -28,7 +28,7 @@ The released implementation uses:
 | Output convolution | 16 → 3, 3 × 3 |
 | SE reduction ratio | 16 |
 | Activation | ReLU |
-
+-->
 ## Dataset
 
 The training scripts are configured for the AUIED3K paired underwater image dataset, using corresponding images from `Raw` and `Reference` directories.
