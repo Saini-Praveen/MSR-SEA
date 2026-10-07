@@ -1,7 +1,7 @@
 # MSR-SEA
 ## Multi-Scale Residual Squeeze-and-Excitation Architecture for Underwater Image Enhancement
 
-MSR-SEA is a deep learning architecture for underwater image enhancement. The network combines multi-scale convolutional feature extraction, residual learning, and squeeze-and-excitation (SE) channel attention to process degraded underwater images and reconstruct enhanced RGB images.
+MSR-SEA is a deep learning architecture for underwater image enhancement. The network combines multi-scale convolutional feature extraction, residual learning, and squeeze-and-excitation (SE) channel attention to process degraded underwater images and reconstruct enhanced RGB images. The details of the architecture are shown in the paper and also found in `model.py`.
 <!--
 ## Architecture
 
@@ -138,7 +138,11 @@ MSR-SEA/
 
 ## Pretrained Weights
 
-Pretrained weights can be download from https://drive.google.com/file/d/1epW9UqUe0z_2hA2ue70C-ece8FHn7w1p/view?usp=sharing
+Pretrained weights can be downloaded from https://drive.google.com/file/d/1epW9UqUe0z_2hA2ue70C-ece8FHn7w1p/view?usp=sharing
+
+## Filters
+
+`sift.py` and `sobel.py` are codes for scale-invariant feature transform and sobel edge detection, which need to be executed separately with the directory of images on which they need to be executed. In the code directories are aligned with the image paths shown in the paper. 
 
 ## Citation
 
