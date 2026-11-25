@@ -48,7 +48,7 @@ def calculate_metrics(pred, gt):
 
     psnr_val = psnr(gt, pred, data_range=1.0)
 
-    ssim_val = ssim(gt, pred, data_range=1.0, channel_axis=-1)
+    ssim_val = ssim(gt, pred, data_range=1.0, channel_axis = -1)
 
     return psnr_val, ssim_val, mse_val, mae_val
 

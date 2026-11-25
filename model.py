@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class SEBlock(nn.Module):
     def __init__(self, channels, reduction=16):
         super(SEBlock, self).__init__()
@@ -36,6 +37,7 @@ class MSRBlock(nn.Module):
         fused = self.fuse2(skip)
         return fused
 
+
 class MSRSEA(nn.Module):
     def __init__(self):
         super(MSRSEA, self).__init__()
@@ -50,13 +52,13 @@ class MSRSEA(nn.Module):
         self.final_conv2 = nn.Conv2d(16, 3, kernel_size=3, padding=1)
 
     def forward(self, x):
-        x = F.relu(self.init_conv1(x))   
-        x = F.relu(self.init_conv2(x))   
+        x = F.relu(self.init_conv1(x))
+        x = F.relu(self.init_conv2(x))
 
-        x = self.block1(x)  
-        x = self.block2(x)  
+        x = self.block1(x)
+        x = self.block2(x)
 
-        x = F.relu(self.final_conv1(x))  
-        x = self.final_conv2(x)          
+        x = F.relu(self.final_conv1(x))
+        x = self.final_conv2(x)        
 
         return x

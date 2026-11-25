@@ -1,4 +1,5 @@
 import os
+import time
 import torch
 import numpy as np
 from model import MSRSEA
@@ -10,8 +11,11 @@ from PIL import Image
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
-input_dir = '/media/cvblns/NS/Praveen/UW_Datasets/AUIED3K/Raw'
-gt_dir = '/media/cvblns/NS/Praveen/UW_Datasets/AUIED3K/Reference'
+dataset_root = './UIEB'
+
+input_dir = os.path.join(dataset_root, 'test', 'Raw')
+gt_dir = os.path.join(dataset_root, 'test', 'Reference')
+
 output_dir = 'results'
 os.makedirs(output_dir, exist_ok=True)
 
@@ -26,6 +30,10 @@ transform = Resize((256, 256))
 to_tensor = ToTensor()
 
 psnr_list, ssim_list, mse_list, mae_list = [], [], [], []
+total_inference_time = 0.0
+total_images_timed = 0
+warmup_done = False
+
 metrics_table = [f"{'Image':<25} {'PSNR':>8} {'SSIM':>8} {'MSE':>12} {'MAE':>12}"]
 
 with torch.no_grad():
@@ -43,7 +51,29 @@ with torch.no_grad():
         inp_img = Image.fromarray((inp * 255).astype(np.uint8))
         inp_tensor = to_tensor(transform(inp_img)).unsqueeze(0).to(device)
 
+        if not warmup_done:
+            for _ in range(10):
+                _ = model(inp_tensor)
+
+            if device.type == "cuda":
+                torch.cuda.synchronize()
+
+            warmup_done = True
+
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+
+        start_time = time.perf_counter()
         out_tensor = model(inp_tensor)
+
+        if device.type == "cuda":
+            torch.cuda.synchronize()
+
+        end_time = time.perf_counter()
+
+        total_inference_time += (end_time - start_time)
+        total_images_timed += inp_tensor.size(0)
+
         out_np = out_tensor.squeeze(0).cpu().permute(1, 2, 0).numpy()
 
         save_image(out_np, os.path.join(output_dir, fname))
@@ -61,14 +91,34 @@ avg_ssim = np.mean(ssim_list)
 avg_mse = np.mean(mse_list)
 avg_mae = np.mean(mae_list)
 
+
+if total_images_timed > 0 and total_inference_time > 0:
+    avg_inference_time_ms = (total_inference_time / total_images_timed) * 1000.0
+    fps = total_images_timed / total_inference_time
+else:
+    avg_inference_time_ms = float("nan")
+    fps = float("nan")
+
 print("\nAverage Metrics:")
 print(f"PSNR: {avg_psnr:.2f}")
 print(f"SSIM: {avg_ssim:.4f}")
 print(f"MSE : {avg_mse:.5f}")
 print(f"MAE : {avg_mae:.5f}")
 
-metrics_table.append("-" * 65)
+print("\nComputational Efficiency:")
+print(f"Images timed           : {total_images_timed}")
+print(f"Total inference time   : {total_inference_time:.4f} seconds")
+print(f"Average inference time : {avg_inference_time_ms:.3f} ms/image")
+print(f"FPS                    : {fps:.2f}")
+
+metrics_table.append("-" * 75)
 metrics_table.append(f"{'Average':<25} {avg_psnr:8.2f} {avg_ssim:8.4f} {avg_mse:12.5f} {avg_mae:12.5f}")
+metrics_table.append("")
+metrics_table.append("Computational Efficiency:")
+metrics_table.append(f"Images timed           : {total_images_timed}")
+metrics_table.append(f"Total inference time   : {total_inference_time:.4f} seconds")
+metrics_table.append(f"Average inference time : {avg_inference_time_ms:.3f} ms/image")
+metrics_table.append(f"FPS                    : {fps:.2f}")
 
 with open("metrics_eval.txt", "w") as f:
     f.write("\n".join(metrics_table))

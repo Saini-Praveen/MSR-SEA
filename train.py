@@ -19,8 +19,14 @@ print("Using device:", device)
 batch_size = 16
 learning_rate = 1e-4
 num_epochs = 100
-input_dir = '/media/cvblns/NS/Praveen/UW_Datasets/AUIED3K/Raw'
-target_dir = '/media/cvblns/NS/Praveen/UW_Datasets/AUIED3K/Reference'
+
+dataset_root = './UIEB'
+
+train_input_dir = os.path.join(dataset_root, 'train', 'Raw')
+train_target_dir = os.path.join(dataset_root, 'train', 'Reference')
+
+val_input_dir = os.path.join(dataset_root, 'val', 'Raw')
+val_target_dir = os.path.join(dataset_root, 'val', 'Reference')
 
 transform = transforms.Compose([
     transforms.Resize((256, 256)),
@@ -35,16 +41,24 @@ with open(csv_filename, mode='w', newline='') as f:
 def combined_loss(pred, target):
     mse = torch.nn.functional.mse_loss(pred, target)
     ssim_loss = 1 - ssim(pred, target, data_range=1.0, size_average=True)
-    return 0.85 * ssim_loss + 0.15 * mse
+    return 0.75 * ssim_loss + 0.25 * mse
 
 if __name__ == '__main__':
     torch.manual_seed(42)
     np.random.seed(42)
 
-    full_dataset = UnderwaterDataset(input_dir=input_dir, target_dir=target_dir, transform=transform)
-    train_size = 2700
-    val_size = 300
-    train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
+    train_dataset = UnderwaterDataset(
+        input_dir=train_input_dir,
+        target_dir=train_target_dir,
+        transform=transform
+    )
+
+    val_dataset = UnderwaterDataset(
+        input_dir=val_input_dir,
+        target_dir=val_target_dir,
+        transform=transform
+    )
+
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
