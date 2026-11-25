@@ -31,12 +31,31 @@ The released implementation uses:
 -->
 ## Dataset
 
-The training scripts are configured for the AUIED3K paired underwater image dataset, using corresponding images from `Raw` and `Reference` directories.
-The current training configuration uses:
-- 3,000 paired images in the complete dataset
-- 2,700 training images
-- 300 validation images
-- 256 × 256 image resolution
+The training and evaluation scripts are configured for the UIEB paired underwater image enhancement dataset, containing corresponding underwater images in `Raw` and `Reference` directories.
+
+The dataset is organized into separate training, validation, and testing subsets:
+
+```text
+UIEB/
+├── train/
+│   ├── Raw/
+│   └── Reference/
+├── val/
+│   ├── Raw/
+│   └── Reference/
+└── test/
+    ├── Raw/
+    └── Reference/
+```
+
+The dataset consists of 890 paired images, divided as follows:
+
+- **Training set:** 623 image pairs (70%)
+- **Validation set:** 89 image pairs (10%)
+- **Testing set:** 178 image pairs (20%)
+- **Image resolution:** 256 × 256 pixels
+
+The dataset is divided into mutually exclusive training, validation, and testing subsets. The corresponding image filenames for each subset are provided in `dataset_split_file_lists.txt` to ensure reproducibility of the dataset split.
 
   Other datasets we used in this project are UIEB and SYN-TIII.
   Datasets can be downloaded from
@@ -53,14 +72,28 @@ pip install -r requirements.txt
 ```
 ## Preparing the Paths
 
-The original research scripts contain machine-specific dataset paths. Before running the code on another system, update the `input_dir` and `target_dir` variables in `train.py` and `test.py` to point to your local AUIED3K directories.
+Before running the code, update the dataset paths in `train.py` and `test.py` to point to your local UIEB dataset directories.
 
-For example:
+
+For example, configure the paths in `train.py` as follows:
 
 ```python
-input_dir = "/path/to/AUIED3K/Raw"
-target_dir = "/path/to/AUIED3K/Reference"
+train_input_dir = "/path/to/dataset/train/Raw"
+train_target_dir = "/path/to/dataset/train/Reference"
+
+val_input_dir = "/path/to/dataset/val/Raw"
+val_target_dir = "/path/to/dataset/val/Reference"
 ```
+
+Similarly, configure the testing paths in `test.py`:
+
+```python
+input_dir = "/path/to/dataset/test/Raw"
+target_dir = "/path/to/dataset/test/Reference"
+```
+
+Replace `/path/to/dataset` with the actual location of your dataset.
+
 
 ## Training
 
@@ -78,7 +111,6 @@ Learning rate    : 1e-4
 Optimizer        : Adam
 Epochs           : 100
 Image size       : 256 × 256
-Train/Val split  : 2700 / 300
 ```
 
 The training objective combines SSIM loss and MSE:
@@ -97,16 +129,16 @@ After training, place the trained checkpoint where `test.py` expects it and run:
 python test.py
 ```
 
-The inference script processes all input images with corresponding reference images, generates enhanced results, and reports the average PSNR, SSIM, MSE, and MAE.
+The inference script processes test set images with corresponding reference images, generates enhanced results, and reports the average PSNR, SSIM, MSE, and MAE, alongwith inference time.
 
 ## Image-Quality Evaluation
 
-The repository contains metric implementations for reference-based and no-reference evaluation. The comprehensive evaluation script includes:
+The repository contains metric implementations for reference-based and non-reference evaluation. The comprehensive evaluation script includes:
 
 - MSE
 - PSNR
 - SSIM
-- UQI
+- UQI (Grayscale and Color both)
 - LPIPS
 - UCIQE
 - UIQM
@@ -114,7 +146,7 @@ The repository contains metric implementations for reference-based and no-refere
 Run:
 
 ```bash
-python metrics.py
+python calculate_metrics.py
 ```
 
 
@@ -138,7 +170,7 @@ MSR-SEA/
 
 ## Pretrained Weights
 
-Pretrained weights can be downloaded from https://drive.google.com/file/d/1epW9UqUe0z_2hA2ue70C-ece8FHn7w1p/view?usp=sharing
+Pretrained weights can be downloaded from https://drive.google.com/file/d/1JfR9puX1nU2qvdRfbGg1uEOHVd1GlHK1/view?usp=sharing
 
 ## Filters
 
@@ -149,6 +181,6 @@ Pretrained weights can be downloaded from https://drive.google.com/file/d/1epW9U
 If you use MSR-SEA in your research, please cite the associated paper:
 
 ```bibtex
-
+waiting
 ```
 
