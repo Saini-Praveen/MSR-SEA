@@ -121,7 +121,7 @@ After training, place the trained checkpoint where `test.py` expects it and run:
 python test.py
 ```
 
-The inference script processes test set images with corresponding reference images, generates enhanced results, and reports the average PSNR, SSIM, MSE, and MAE, alongwith inference time.
+The inference script processes test set images with corresponding reference images, generates enhanced results, and reports the average PSNR, SSIM, MSE, and MAE, along with inference time.
 
 ## Image-Quality Evaluation
 
@@ -140,7 +140,7 @@ Run:
 ```bash
 python calculate_metrics.py
 ```
-
+MSR-SEA reported all reference and non-reference metric scores calculated using `calculate_metrics.py`
 
 ## Repository Structure
 
