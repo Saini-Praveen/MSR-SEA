@@ -167,12 +167,11 @@ MSR-SEA/
 ├── checkpoints/
 └── figures/
 ```
-
 ## Pretrained Weights
 
-Pretrained weights can be downloaded from https://drive.google.com/file/d/1JfR9puX1nU2qvdRfbGg1uEOHVd1GlHK1/view?usp=sharing
+Pretrained weights can be downloaded from [Google Drive](https://drive.google.com/file/d/1JfR9puX1nU2qvdRfbGg1uEOHVd1GlHK1/view?usp=sharing).
 
-## Filters
+## Additional Structural Analysis
 
 `sift.py` and `sobel.py` are codes for scale-invariant feature transform and sobel edge detection, which need to be executed separately with the directory of images on which they need to be executed. In the code directories are aligned with the image paths shown in the paper. 
 
@@ -181,6 +180,6 @@ Pretrained weights can be downloaded from https://drive.google.com/file/d/1JfR9p
 If you use MSR-SEA in your research, please cite the associated paper:
 
 ```bibtex
-waiting
+loading
 ```
 
