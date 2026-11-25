@@ -72,27 +72,19 @@ pip install -r requirements.txt
 ```
 ## Preparing the Paths
 
-Before running the code, update the dataset paths in `train.py` and `test.py` to point to your local UIEB dataset directories.
+Before running the code, update the dataset root path in `train.py` and `test.py` to point to your local dataset root directory. Ensure that the subdirectories train, val, and test follow the directory structure mentioned above.
 
 
-For example, configure the paths in `train.py` as follows:
-
-```python
-train_input_dir = "/path/to/dataset/train/Raw"
-train_target_dir = "/path/to/dataset/train/Reference"
-
-val_input_dir = "/path/to/dataset/val/Raw"
-val_target_dir = "/path/to/dataset/val/Reference"
-```
-
-Similarly, configure the testing paths in `test.py`:
+For example, configure the paths in `train.py` and  `test.py` as follows:
 
 ```python
-input_dir = "/path/to/dataset/test/Raw"
-target_dir = "/path/to/dataset/test/Reference"
+dataset_root = "/path/to/dataset"
+
 ```
 
 Replace `/path/to/dataset` with the actual location of your dataset.
+
+Also, configure the path of enhanced test images and the corresponding reference images in `calculate_metrics.py`
 
 
 ## Training
