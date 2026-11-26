@@ -165,7 +165,7 @@ Pretrained weights can be downloaded from [Google Drive](https://drive.google.co
 
 ## Additional Structural Analysis
 
-`sift.py` and `sobel.py` are codes for scale-invariant feature transform and sobel edge detection, which need to be executed separately with the directory of images on which they need to be executed. In the code directories are aligned with the image paths shown in the paper. 
+`sift.py` and `sobel.py` are code for the scale-invariant feature transform and Sobel edge detection, which need to be executed separately on the dataset directories (test - Raw and Reference), along with directories containing images of the MSR-SEA-enhanced and competing methods. Configure the paths to the directories in the corresponding code for a particular dataset. 
 
 ## Citation
 
