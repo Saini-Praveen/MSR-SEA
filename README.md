@@ -108,7 +108,7 @@ Image size       : 256 × 256
 The training objective combines SSIM loss and MSE:
 
 ```text
-L = 0.85 × (1 - SSIM) + 0.15 × MSE
+L = 0.75 × (1 - SSIM) + 0.25 × MSE
 ```
 
 Training progress is logged to `msrsea_training_log.csv`, and the checkpoint with the highest validation PSNR is saved as `msrsea_best.pth`.
